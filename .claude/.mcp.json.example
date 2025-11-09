@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "bunx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_GITHUB_TOKEN>"
+      }
+    },
+    "zotero": {
+      "command": "bunx",
+      "args": ["-y", "@inkdeep/zotero-mcp-server"],
+      "env": {
+        "ZOTERO_LIBRARY_TYPE": "user",
+        "ZOTERO_USER_ID": "<YOUR_ZOTERO_USER_ID>",
+        "ZOTERO_API_KEY": "<YOUR_ZOTERO_API_KEY>"
+      }
+    },
+    "n8n": {
+      "command": "bunx",
+      "args": ["-y", "@n8n/mcp"],
+      "env": {
+        "N8N_API_URL": "https://your-n8n-instance.com/api/v1",
+        "N8N_API_KEY": "<YOUR_N8N_API_KEY>"
+      }
+    }
+  }
+}

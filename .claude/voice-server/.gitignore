@@ -1,0 +1,69 @@
+# Ogmios Voice Server - Git Ignore
+# =================================
+
+# Environment and secrets
+.env
+*.env
+!.env.example
+
+# Voice configuration (may contain sensitive voice IDs)
+voices.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs
+*.log
+voice-server.log
+nohup.out
+
+# PID files
+*.pid
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Audio files (don't commit test audio)
+*.mp3
+*.wav
+*.ogg

@@ -1,0 +1,310 @@
+# =================================================================
+# .gitignore for ~/.claude/.claude/ (PAI Directory)
+# =================================================================
+#
+# CRITICAL SECURITY WARNING:
+# This PAI directory contains personal information, preferences,
+# and potentially sensitive data. DO NOT commit this to public repos!
+#
+# Only use git for PAI if:
+# 1. Repository is PRIVATE
+# 2. You've reviewed ALL files for sensitive data
+# 3. You've triple-checked git remote -v
+# 4. You understand the risks
+# =================================================================
+
+# =================================================================
+# SENSITIVE FILES - NEVER COMMIT THESE
+# =================================================================
+
+# Environment variables and secrets
+.env
+.env.*
+*.env
+secrets.json
+credentials.json
+api-keys.json
+
+# MCP configuration (may contain API keys)
+.mcp.json
+mcp.json
+
+# Voice system API keys
+voice-config.json
+
+# Personal data
+contacts/
+personal/
+private/
+
+# Session logs (may contain sensitive info)
+logs/
+*.log
+session-*.json
+
+# =================================================================
+# NODE.JS / BUN
+# =================================================================
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+
+# Bun
+.bun/
+bun.lockb
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+
+# =================================================================
+# TYPESCRIPT
+# =================================================================
+
+# Compiled JavaScript from TypeScript
+hooks/*.js
+hooks/**/*.js
+!hooks/**/*.config.js
+
+# TypeScript cache
+*.tsbuildinfo
+.tsbuildinfo/
+
+# =================================================================
+# MACOS
+# =================================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon files
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# =================================================================
+# LINUX
+# =================================================================
+
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# =================================================================
+# WINDOWS
+# =================================================================
+
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# =================================================================
+# EDITORS
+# =================================================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+*.swp
+*.swo
+*~
+
+# Emacs
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# =================================================================
+# TEMPORARY FILES
+# =================================================================
+
+# Temp directories
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Backup files
+*.bak
+*.backup
+*~
+*.orig
+
+# =================================================================
+# TESTING
+# =================================================================
+
+# Test coverage
+coverage/
+.nyc_output/
+*.coverage
+
+# Test results
+test-results/
+junit.xml
+
+# =================================================================
+# AI/ML SPECIFIC
+# =================================================================
+
+# Model files (can be large)
+*.h5
+*.pkl
+*.pth
+*.onnx
+models/
+
+# Datasets (if stored locally)
+datasets/
+data/raw/
+data/processed/
+
+# =================================================================
+# PROJECT-SPECIFIC IGNORES
+# =================================================================
+
+# Archive old versions
+archive/
+backup/
+old/
+
+# Drafts and work in progress
+drafts/
+wip/
+scratch/
+
+# Large media files (if not needed in git)
+*.mp3
+*.wav
+*.mp4
+*.mov
+
+# Compiled documentation
+docs/build/
+site/
+
+# =================================================================
+# ALLOW THESE (Override previous patterns if needed)
+# =================================================================
+
+# Keep example/template files
+!examples/**
+!templates/**
+
+# Keep essential configuration templates
+!.gitignore.example
+!settings.json.example
+
+# Keep README files
+!**/README.md
+
+# Keep documentation
+!docs/**/*.md
+
+# =================================================================
+# NOTES
+# =================================================================
+#
+# SECURITY CHECKLIST BEFORE COMMITTING:
+# [ ] Checked for API keys in all files
+# [ ] Verified no personal contact information
+# [ ] Confirmed no credentials or passwords
+# [ ] Reviewed git remote -v (is it private?)
+# [ ] Ran: git diff --cached (review changes)
+# [ ] Considered: Do I really need to commit this?
+#
+# SAFE TO COMMIT:
+# - PAI.md (with placeholders, no personal data)
+# - UFC.md (system structure only)
+# - decisions.md and learnings.md (sanitized)
+# - SKILLS-INDEX.md (with placeholder voice IDs)
+# - Hook TypeScript files (no secrets)
+# - Documentation and examples
+#
+# NEVER COMMIT:
+# - .env files
+# - API keys
+# - Personal information
+# - Contact data
+# - Session logs
+# - Credentials
+#
+# =================================================================

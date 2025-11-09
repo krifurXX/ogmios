@@ -1,0 +1,189 @@
+#!/usr/bin/env bun
+
+/**
+ * SessionEnd Hook - Captures session summary
+ *
+ * Generates a session summary document when a Claude Code session ends,
+ * documenting what was accomplished during the session.
+ *
+ * Based on Ogmios PAI system (Daniel Miessler's Kai architecture)
+ * SANITIZED VERSION - Configure paths for your needs
+ */
+
+import { writeFileSync, mkdirSync, existsSync, readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
+import { getPAIDir } from './lib/hook-utils.ts';
+
+interface SessionData {
+  conversation_id: string;
+  timestamp: string;
+  [key: string]: any;
+}
+
+async function main() {
+  try {
+    // Read input from stdin
+    const input = await Bun.stdin.text();
+    if (!input || input.trim() === '') {
+      process.exit(0);
+    }
+
+    const data: SessionData = JSON.parse(input);
+
+    // Generate timestamp for filename
+    const now = new Date();
+    const timestamp = now.toISOString()
+      .replace(/:/g, '')
+      .replace(/\..+/, '')
+      .replace('T', '-'); // YYYY-MM-DD-HHMMSS
+
+    const yearMonth = timestamp.substring(0, 7); // YYYY-MM
+
+    // Try to extract session info from raw outputs
+    const sessionInfo = await analyzeSession(data.conversation_id, yearMonth);
+
+    // Generate filename
+    const filename = `${timestamp}_SESSION_${sessionInfo.focus}.md`;
+
+    // Ensure directory exists
+    const paiDir = getPAIDir();
+    const historyDir = join(paiDir, 'history');
+    const sessionDir = join(historyDir, 'sessions', yearMonth);
+
+    if (!existsSync(sessionDir)) {
+      mkdirSync(sessionDir, { recursive: true });
+    }
+
+    // Generate session document
+    const sessionDoc = formatSessionDocument(timestamp, data, sessionInfo);
+
+    // Write session file
+    writeFileSync(join(sessionDir, filename), sessionDoc);
+
+    console.error(`✅ Session summary saved: ${filename}`);
+
+    // Exit successfully
+    process.exit(0);
+  } catch (error) {
+    // Silent failure - don't disrupt workflow
+    console.error(`[SessionSummary] Error: ${error}`);
+    process.exit(0);
+  }
+}
+
+async function analyzeSession(conversationId: string, yearMonth: string): Promise<any> {
+  // Try to read raw outputs for this session
+  const paiDir = getPAIDir();
+  const rawOutputsDir = join(paiDir, 'history', 'raw-outputs', yearMonth);
+
+  let filesChanged: string[] = [];
+  let commandsExecuted: string[] = [];
+  let toolsUsed: Set<string> = new Set();
+
+  try {
+    if (existsSync(rawOutputsDir)) {
+      const files = readdirSync(rawOutputsDir).filter(f => f.endsWith('.jsonl'));
+
+      for (const file of files) {
+        const filePath = join(rawOutputsDir, file);
+        const content = readFileSync(filePath, 'utf-8');
+        const lines = content.split('\n').filter(l => l.trim());
+
+        for (const line of lines) {
+          try {
+            const entry = JSON.parse(line);
+            if (entry.session === conversationId) {
+              toolsUsed.add(entry.tool);
+
+              // Extract file changes
+              if (entry.tool === 'Edit' || entry.tool === 'Write') {
+                if (entry.input?.file_path) {
+                  filesChanged.push(entry.input.file_path);
+                }
+              }
+
+              // Extract bash commands
+              if (entry.tool === 'Bash' && entry.input?.command) {
+                commandsExecuted.push(entry.input.command);
+              }
+            }
+          } catch (e) {
+            // Skip invalid JSON lines
+          }
+        }
+      }
+    }
+  } catch (error) {
+    // Silent failure
+  }
+
+  return {
+    focus: 'general-work',
+    filesChanged: [...new Set(filesChanged)].slice(0, 10), // Unique, max 10
+    commandsExecuted: commandsExecuted.slice(0, 10), // Max 10
+    toolsUsed: Array.from(toolsUsed),
+    duration: 0 // Unknown
+  };
+}
+
+function formatSessionDocument(timestamp: string, data: SessionData, info: any): string {
+  const date = timestamp.substring(0, 10); // YYYY-MM-DD
+  const time = timestamp.substring(11).replace(/-/g, ':'); // HH:MM:SS
+
+  return `---
+capture_type: SESSION
+timestamp: ${new Date().toISOString()}
+session_id: ${data.conversation_id}
+duration_minutes: ${info.duration}
+executor: assistant
+---
+
+# Session: ${info.focus}
+
+**Date:** ${date}
+**Time:** ${time}
+**Session ID:** ${data.conversation_id}
+
+---
+
+## Session Overview
+
+**Focus:** General development work
+**Duration:** ${info.duration > 0 ? `${info.duration} minutes` : 'Unknown'}
+
+---
+
+## Tools Used
+
+${info.toolsUsed.length > 0 ? info.toolsUsed.map((t: string) => `- ${t}`).join('\n') : '- None recorded'}
+
+---
+
+## Files Modified
+
+${info.filesChanged.length > 0 ? info.filesChanged.map((f: string) => `- \`${f}\``).join('\n') : '- None recorded'}
+
+**Total Files Changed:** ${info.filesChanged.length}
+
+---
+
+## Commands Executed
+
+${info.commandsExecuted.length > 0 ? '```bash\n' + info.commandsExecuted.join('\n') + '\n```' : 'None recorded'}
+
+---
+
+## Notes
+
+This session summary was automatically generated by the SessionEnd hook.
+
+For detailed tool outputs, see: \`\${PAI_DIR}/history/raw-outputs/${timestamp.substring(0, 7)}/\`
+
+---
+
+**Session Outcome:** Completed
+**Generated:** ${new Date().toISOString()}
+`;
+}
+
+main();

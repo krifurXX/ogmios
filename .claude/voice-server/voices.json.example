@@ -1,0 +1,220 @@
+{
+  "description": "Ogmios Voice Configuration - Maps skills and agents to ElevenLabs voice IDs",
+  "instructions": [
+    "1. Copy this file to voices.json: cp voices.json.example voices.json",
+    "2. Get your voice IDs from https://elevenlabs.io/app/voice-library",
+    "3. Replace <VOICE_ID_*> placeholders with actual ElevenLabs voice IDs",
+    "4. Customize voice names and accents as needed",
+    "5. Add new skills/agents as your system grows"
+  ],
+  "default_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.0,
+    "use_speaker_boost": true
+  },
+  "voices": {
+    "engineering": {
+      "id": "<VOICE_ID_ENGINEERING>",
+      "name": "George Foster",
+      "accent": "British",
+      "language": "en",
+      "gender": "male",
+      "description": "Principal Software Engineer - Technical and precise",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8
+      }
+    },
+    "research": {
+      "id": "<VOICE_ID_RESEARCH>",
+      "name": "Dr. Alice Mitchell",
+      "accent": "British",
+      "language": "en",
+      "gender": "female",
+      "description": "Research Specialist - Analytical and thorough",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.75
+      }
+    },
+    "architecture": {
+      "id": "<VOICE_ID_ARCHITECTURE>",
+      "name": "Dr. Emma Roberts",
+      "accent": "British",
+      "language": "en",
+      "gender": "female",
+      "description": "Software Architect - Strategic and visionary",
+      "settings": {
+        "stability": 0.65,
+        "similarity_boost": 0.8
+      }
+    },
+    "technical-writing": {
+      "id": "<VOICE_ID_TECHNICAL_WRITING>",
+      "name": "Marcus Thompson",
+      "accent": "British",
+      "language": "en",
+      "gender": "male",
+      "description": "Technical Writer - Clear and articulate",
+      "settings": {
+        "stability": 0.8,
+        "similarity_boost": 0.7
+      }
+    },
+    "data-analysis": {
+      "id": "<VOICE_ID_DATA_ANALYSIS>",
+      "name": "Dr. Sarah Chen",
+      "accent": "American",
+      "language": "en",
+      "gender": "female",
+      "description": "Data Scientist - Precise and data-driven",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8
+      }
+    },
+    "devops": {
+      "id": "<VOICE_ID_DEVOPS>",
+      "name": "James Wilson",
+      "accent": "American",
+      "language": "en",
+      "gender": "male",
+      "description": "DevOps Engineer - Efficient and systematic",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75
+      }
+    },
+    "security": {
+      "id": "<VOICE_ID_SECURITY>",
+      "name": "Elena Rodriguez",
+      "accent": "American",
+      "language": "en",
+      "gender": "female",
+      "description": "Security Expert - Vigilant and meticulous",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.8
+      }
+    },
+    "swedish": {
+      "id": "<VOICE_ID_SWEDISH>",
+      "name": "Anna",
+      "accent": "Swedish",
+      "language": "sv",
+      "gender": "female",
+      "description": "Swedish voice - Natural and friendly",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.75
+      }
+    },
+    "swedish-academic": {
+      "id": "<VOICE_ID_SWEDISH_ACADEMIC>",
+      "name": "Prof. Lars Bergström",
+      "accent": "Swedish",
+      "language": "sv",
+      "gender": "male",
+      "description": "Swedish academic voice - Authoritative and scholarly",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.8
+      }
+    },
+    "architect": {
+      "id": "<VOICE_ID_ARCHITECTURE>",
+      "name": "Dr. Emma Roberts",
+      "accent": "British",
+      "language": "en",
+      "gender": "female",
+      "description": "Architect agent voice (same as architecture skill)"
+    },
+    "engineer": {
+      "id": "<VOICE_ID_ENGINEERING>",
+      "name": "George Foster",
+      "accent": "British",
+      "language": "en",
+      "gender": "male",
+      "description": "Engineer agent voice (same as engineering skill)"
+    },
+    "researcher": {
+      "id": "<VOICE_ID_RESEARCH>",
+      "name": "Dr. Alice Mitchell",
+      "accent": "British",
+      "language": "en",
+      "gender": "female",
+      "description": "Researcher agent voice (same as research skill)"
+    },
+    "default": {
+      "id": "<VOICE_ID_DEFAULT>",
+      "name": "Default Voice",
+      "accent": "British",
+      "language": "en",
+      "gender": "neutral",
+      "description": "Fallback voice when no specific voice is configured",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75
+      }
+    }
+  },
+  "popular_elevenlabs_voices": {
+    "comment": "Popular pre-made voices from ElevenLabs (IDs may change - verify on ElevenLabs website)",
+    "rachel": {
+      "id": "21m00Tcm4TlvDq8ikWAM",
+      "description": "Young American female"
+    },
+    "domi": {
+      "id": "AZnzlk1XvdvUeBnXmlld",
+      "description": "Young American female"
+    },
+    "bella": {
+      "id": "EXAVITQu4vr4xnSDxMaL",
+      "description": "Young American female"
+    },
+    "antoni": {
+      "id": "ErXwobaYiN019PkySvjV",
+      "description": "Young American male"
+    },
+    "elli": {
+      "id": "MF3mGyEYCl7XYWbV9V6O",
+      "description": "Young American female"
+    },
+    "josh": {
+      "id": "TxGEqnHWrfWFTfGW9XjX",
+      "description": "Young American male"
+    },
+    "arnold": {
+      "id": "VR6AewLTigWG4xSOukaG",
+      "description": "Middle-aged American male"
+    },
+    "adam": {
+      "id": "pNInz6obpgDQGcFmaJgB",
+      "description": "Middle-aged American male"
+    },
+    "sam": {
+      "id": "yoZ06aMxZJJ28mfd3POQ",
+      "description": "Young American male"
+    }
+  },
+  "usage_notes": [
+    "Voice IDs are determined by the hook in this priority order:",
+    "1. Explicit VOICE: tag in assistant message",
+    "2. [AGENT:name] tag from COMPLETED message",
+    "3. Skill name from skill context",
+    "4. Default voice",
+    "",
+    "To create custom voices:",
+    "- Go to https://elevenlabs.io/app/voice-lab",
+    "- Clone or create a voice",
+    "- Copy the voice ID from voice settings",
+    "- Add to this configuration file",
+    "",
+    "Voice settings explanation:",
+    "- stability: 0.0 (variable/expressive) to 1.0 (stable/consistent)",
+    "- similarity_boost: 0.0 (creative) to 1.0 (accurate to original)",
+    "- style: 0.0 (neutral) to 1.0 (exaggerated) - only some voices",
+    "- use_speaker_boost: true enhances clarity"
+  ]
+}

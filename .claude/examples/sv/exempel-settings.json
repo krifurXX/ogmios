@@ -1,0 +1,213 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/gh/anthropics/claude-code@main/schemas/settings.schema.json",
+  "comment": "EXEMPEL: settings.json för Ogmios PAI System - Svenska/English",
+
+  "//": "=================================================================",
+  "//": "HOOKS CONFIGURATION - Event-driven automation",
+  "//": "=================================================================",
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "description": "Ladda PAI.md kärnidentitet vid session start",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/session-start.ts"
+          }
+        ]
+      }
+    ],
+
+    "UserPromptSubmit": [
+      {
+        "description": "Ladda UFC context baserat på intent detection",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/load-ufc-context.ts"
+          }
+        ]
+      },
+      {
+        "description": "Aktivera rätt skill automatiskt baserat på triggers",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/skill-activation.ts"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "description": "Validera COMPLETED tag format",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/stop-validation.ts"
+          }
+        ]
+      },
+      {
+        "description": "Trigga voice feedback (om VOICE_ENABLED=true)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/stop-voice.ts"
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "description": "Logga tool usage för analytics (valfritt)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/log-tool-use.ts"
+          }
+        ]
+      }
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "ENVIRONMENT VARIABLES",
+  "//": "=================================================================",
+
+  "env": {
+    "PAI_DIR": "${HOME}/.claude/.claude",
+    "VOICE_ENABLED": "true",
+    "VOICE_SERVER_URL": "http://localhost:8765",
+    "UFC_CONTEXT_DIR": "${HOME}/.claude/.claude/context",
+    "SKILLS_DIR": "${HOME}/.claude/.claude/skills"
+  },
+
+  "//": "=================================================================",
+  "//": "AUTO-APPROVE TOOLS - Verktyg som inte kräver användargodkännande",
+  "//": "=================================================================",
+
+  "autoApprove": {
+    "description": "Automatiskt godkänn dessa tools för smidigare workflow",
+    "tools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "TodoWrite",
+      "mcp__*"
+    ],
+    "allowedDomains": [
+      "github.com",
+      "stackoverflow.com",
+      "anthropic.com",
+      "claude.com"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "PROJECT SETTINGS",
+  "//": "=================================================================",
+
+  "projects": {
+    "defaultClaudeFile": "CLAUDE.md",
+    "searchPaths": [
+      "${HOME}/Projects",
+      "${HOME}/Library/CloudStorage/<cloud_storage>"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "VOICE CONFIGURATION (Valfritt)",
+  "//": "=================================================================",
+
+  "voice": {
+    "enabled": true,
+    "defaultVoiceId": "<VOICE_ID_ENGINEERING>",
+    "voices": {
+      "engineering": {
+        "id": "<VOICE_ID_ENGINEERING>",
+        "name": "George Foster",
+        "accent": "British"
+      },
+      "research": {
+        "id": "<VOICE_ID_RESEARCH>",
+        "name": "Dr. Alice Mitchell",
+        "accent": "British"
+      },
+      "architecture": {
+        "id": "<VOICE_ID_ARCHITECTURE>",
+        "name": "Dr. Emma Roberts",
+        "accent": "British"
+      },
+      "swedish": {
+        "id": "<VOICE_ID_SWEDISH>",
+        "name": "Anna",
+        "accent": "Swedish"
+      }
+    }
+  },
+
+  "//": "=================================================================",
+  "//": "CONTEXT LOADING SETTINGS",
+  "//": "=================================================================",
+
+  "context": {
+    "autoLoad": {
+      "PAI": true,
+      "UFC": true,
+      "projectContext": true
+    },
+    "tierLimits": {
+      "tier1": 5000,
+      "tier2": 50000,
+      "tier3": -1
+    }
+  },
+
+  "//": "=================================================================",
+  "//": "PREFERENCES",
+  "//": "=================================================================",
+
+  "preferences": {
+    "language": "auto",
+    "codeStyle": "concise",
+    "emojiUsage": "minimal",
+    "responseFormat": "structured"
+  },
+
+  "//": "=================================================================",
+  "//": "SECURITY",
+  "//": "=================================================================",
+
+  "security": {
+    "blockSensitiveFileWrite": true,
+    "warnOnPublicRepoCommit": true,
+    "encryptCredentials": true,
+    "allowedMCPServers": [
+      "github",
+      "zotero",
+      "n8n",
+      "playwright"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "LOGGING & ANALYTICS (Valfritt)",
+  "//": "=================================================================",
+
+  "logging": {
+    "enabled": true,
+    "logDir": "${HOME}/.claude/.claude/logs",
+    "logLevel": "info",
+    "logSessions": true,
+    "logToolUse": true
+  }
+}

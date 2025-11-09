@@ -1,0 +1,73 @@
+# Ogmios .gitignore
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Logs
+logs/
+*.log
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Environment files (users should create their own)
+.env
+.env.local
+
+# Personal customizations (users' own settings)
+.claude/.claude/PAI.md
+.claude/.claude/context/personal/
+.claude/.claude/context/projects/*
+!.claude/.claude/context/projects/.gitkeep
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+temp/
+tmp/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Archives and backups
+*.tar.gz
+*.zip
+backup/
+backups/

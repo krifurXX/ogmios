@@ -1,0 +1,71 @@
+# Systemd Service File for Ogmios Voice Server
+# ==============================================
+#
+# Installation (Linux):
+# 1. Edit paths below to match your installation
+# 2. Copy to systemd directory:
+#    sudo cp ogmios-voice.service /etc/systemd/system/
+# 3. Reload systemd:
+#    sudo systemctl daemon-reload
+# 4. Enable service (auto-start on boot):
+#    sudo systemctl enable ogmios-voice
+# 5. Start service:
+#    sudo systemctl start ogmios-voice
+# 6. Check status:
+#    sudo systemctl status ogmios-voice
+#
+# Management:
+# - Start: sudo systemctl start ogmios-voice
+# - Stop: sudo systemctl stop ogmios-voice
+# - Restart: sudo systemctl restart ogmios-voice
+# - Status: sudo systemctl status ogmios-voice
+# - Logs: journalctl -u ogmios-voice -f
+
+[Unit]
+Description=Ogmios Voice Server
+Documentation=https://github.com/yourusername/ogmios
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# IMPORTANT: Change these to match your installation
+User=yourusername
+Group=yourusername
+WorkingDirectory=/path/to/claudeogmios/voice-server
+
+# Environment
+Environment="PATH=/path/to/voice-server/venv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/path/to/voice-server/.env
+
+# Start command (using gunicorn for production)
+ExecStart=/path/to/venv/bin/gunicorn \
+    --workers 4 \
+    --bind 0.0.0.0:8888 \
+    --timeout 30 \
+    --log-level info \
+    --access-logfile /var/log/ogmios-voice-access.log \
+    --error-logfile /var/log/ogmios-voice-error.log \
+    server:app
+
+# Alternative: Start with Python directly (simpler, but less scalable)
+# ExecStart=/path/to/venv/bin/python /path/to/voice-server/server.py
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Performance & Security
+Nice=0
+LimitNOFILE=65536
+PrivateTmp=yes
+NoNewPrivileges=true
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ogmios-voice
+
+[Install]
+WantedBy=multi-user.target

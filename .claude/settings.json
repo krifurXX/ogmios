@@ -1,0 +1,251 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/gh/anthropics/claude-code@main/schemas/settings.schema.json",
+  "//": "=================================================================",
+  "//": "OGMIOS PAI - Complete Settings Template",
+  "//": "Copy to: ~/.claude/settings.json",
+  "//": "Replace all <PLACEHOLDERS> with your actual values",
+  "//": "=================================================================",
+
+  "//": "=================================================================",
+  "//": "HOOKS CONFIGURATION - Event-driven automation",
+  "//": "These hooks load context, activate skills, and provide voice feedback",
+  "//": "=================================================================",
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "description": "Load PAI.md core identity at session start",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/session-start.ts"
+          }
+        ]
+      }
+    ],
+
+    "UserPromptSubmit": [
+      {
+        "description": "Load UFC context based on intent detection",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/load-ufc-context.ts"
+          }
+        ]
+      },
+      {
+        "description": "Automatically activate correct skill based on triggers",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/skill-activation.ts"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "description": "Validate COMPLETED tag format",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/stop-validation.ts"
+          }
+        ]
+      },
+      {
+        "description": "Trigger voice feedback (if VOICE_ENABLED=true)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/stop-voice.ts"
+          }
+        ]
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "description": "Log tool usage for analytics (optional)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run ${PAI_DIR}/.claude/hooks/log-tool-use.ts"
+          }
+        ]
+      }
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "ENVIRONMENT VARIABLES",
+  "//": "=================================================================",
+
+  "env": {
+    "PAI_DIR": "${HOME}/.claude/.claude",
+    "VOICE_ENABLED": "true",
+    "VOICE_SERVER_URL": "http://localhost:8765",
+    "UFC_CONTEXT_DIR": "${HOME}/.claude/.claude/context",
+    "SKILLS_DIR": "${HOME}/.claude/.claude/skills",
+    "ELEVENLABS_API_KEY": "<YOUR_ELEVENLABS_API_KEY>"
+  },
+
+  "//": "=================================================================",
+  "//": "AUTO-APPROVE TOOLS",
+  "//": "Tools that don't require user approval for smoother workflow",
+  "//": "Add/remove based on your security preferences",
+  "//": "=================================================================",
+
+  "autoApprove": {
+    "description": "Auto-approve these tools for smoother workflow",
+    "tools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "TodoWrite",
+      "mcp__*"
+    ],
+    "allowedDomains": [
+      "github.com",
+      "stackoverflow.com",
+      "anthropic.com",
+      "claude.com",
+      "developer.mozilla.org",
+      "docs.python.org"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "PROJECT SETTINGS",
+  "//": "Configure where Claude Code looks for projects and CLAUDE.md files",
+  "//": "=================================================================",
+
+  "projects": {
+    "defaultClaudeFile": "CLAUDE.md",
+    "searchPaths": [
+      "${HOME}/Projects",
+      "${HOME}/Documents/Projects"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "VOICE CONFIGURATION (Optional)",
+  "//": "Requires ElevenLabs API key and voice-server running",
+  "//": "Get voices from: https://elevenlabs.io/voice-library",
+  "//": "=================================================================",
+
+  "voice": {
+    "enabled": true,
+    "defaultVoiceId": "<YOUR_DEFAULT_VOICE_ID>",
+    "voices": {
+      "engineering": {
+        "id": "<VOICE_ID_ENGINEERING>",
+        "name": "George Foster",
+        "accent": "British",
+        "description": "Male British voice for technical implementation"
+      },
+      "research": {
+        "id": "<VOICE_ID_RESEARCH>",
+        "name": "Dr. Alice Mitchell",
+        "accent": "British",
+        "description": "Female British voice for research tasks"
+      },
+      "architecture": {
+        "id": "<VOICE_ID_ARCHITECTURE>",
+        "name": "Dr. Emma Roberts",
+        "accent": "British",
+        "description": "Female British voice for architecture and design"
+      },
+      "swedish": {
+        "id": "<VOICE_ID_SWEDISH>",
+        "name": "Anna",
+        "accent": "Swedish",
+        "description": "Swedish voice for Swedish language responses"
+      }
+    }
+  },
+
+  "//": "=================================================================",
+  "//": "CONTEXT LOADING SETTINGS",
+  "//": "Configure UFC (Universal File-based Context) behavior",
+  "//": "=================================================================",
+
+  "context": {
+    "autoLoad": {
+      "PAI": true,
+      "UFC": true,
+      "projectContext": true
+    },
+    "tierLimits": {
+      "tier1": 5000,
+      "tier2": 50000,
+      "tier3": -1
+    }
+  },
+
+  "//": "=================================================================",
+  "//": "PREFERENCES",
+  "//": "Customize AI behavior and response style",
+  "//": "=================================================================",
+
+  "preferences": {
+    "language": "auto",
+    "codeStyle": "concise",
+    "emojiUsage": "minimal",
+    "responseFormat": "structured"
+  },
+
+  "//": "=================================================================",
+  "//": "SECURITY SETTINGS",
+  "//": "Configure security and privacy options",
+  "//": "=================================================================",
+
+  "security": {
+    "blockSensitiveFileWrite": true,
+    "warnOnPublicRepoCommit": true,
+    "encryptCredentials": true,
+    "allowedMCPServers": [
+      "github",
+      "zotero",
+      "n8n",
+      "playwright",
+      "ide"
+    ]
+  },
+
+  "//": "=================================================================",
+  "//": "LOGGING & ANALYTICS (Optional)",
+  "//": "Track tool usage and sessions for analytics",
+  "//": "=================================================================",
+
+  "logging": {
+    "enabled": true,
+    "logDir": "${HOME}/.claude/.claude/logs",
+    "logLevel": "info",
+    "logSessions": true,
+    "logToolUse": true
+  },
+
+  "//": "=================================================================",
+  "//": "SKILL SYSTEM CONFIGURATION",
+  "//": "Configure automatic skill activation behavior",
+  "//": "=================================================================",
+
+  "skills": {
+    "autoActivate": true,
+    "indexFile": "${HOME}/.claude/.claude/skills/SKILLS-INDEX.md",
+    "skillsDir": "${HOME}/.claude/.claude/skills",
+    "preferredSkills": [
+      "engineering",
+      "architecture",
+      "research"
+    ]
+  }
+}
