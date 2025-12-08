@@ -23,6 +23,10 @@
         "N8N_API_URL": "https://your-n8n-instance.com/api/v1",
         "N8N_API_KEY": "<YOUR_N8N_API_KEY>"
       }
+    },
+    "sverigesradio": {
+      "command": "node",
+      "args": ["/path/to/Sveriges.Radio-MCP/dist/index.js"]
     }
   }
 }
